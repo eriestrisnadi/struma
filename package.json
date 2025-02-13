@@ -1,11 +1,23 @@
 {
-  "name": "@xituru/typescript-package-boilerplate",
-  "version": "1.1.1",
-  "description": "Template starter for creating npm package with typescript",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.mjs",
-  "unpkg": "dist/index.umd.js",
-  "types": "dist/index.d.ts",
+  "name": "struma",
+  "version": "0.0.0",
+  "description": "A schema-driven JSON Database with immutable snapshots capabilities",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "unpkg": "./dist/struma.umd.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
   "author": "Eries Trisnadi <zdumb1885@gmail.com>",
   "license": "MIT",
   "publishConfig": {
@@ -24,13 +36,13 @@
     "esm",
     "umd"
   ],
-  "homepage": "https://github.com/xituru/typescript-package-boilerplate",
+  "homepage": "https://github.com/eriestrisnadi/struma",
   "repository": {
     "type": "git",
-    "url": "git@github.com:xituru/typescript-package-boilerplate.git"
+    "url": "git@github.com:eriestrisnadi/struma.git"
   },
   "bugs": {
-    "url": "https://github.com/xituru/typescript-package-boilerplate/issues"
+    "url": "https://github.com/eriestrisnadi/struma/issues"
   },
   "scripts": {
     "build": "tsup",
@@ -40,6 +52,8 @@
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable",
     "test": "jest --no-cache --runInBand"
+  },
+  "dependencies": {
   },
   "devDependencies": {
     "@amanda-mitchell/semantic-release-npm-multiple": "^3.11.1",

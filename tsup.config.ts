@@ -1,47 +1,57 @@
-import { defineConfig, Options } from 'tsup'
-import { umdWrapper } from 'esbuild-plugin-umd-wrapper'
+import { umdWrapper } from 'esbuild-plugin-umd-wrapper';
+import { defineConfig, Options } from 'tsup';
+import { name, dependencies } from './package.json';
+
+const libraryName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 
 const baseConfig: Options = {
   entry: ['src/index.ts'],
   splitting: false,
   sourcemap: true,
   clean: true,
-  // @ts-ignore
-  format: ['cjs', 'esm', 'umd'],
+  format: ['cjs', 'esm'],
   outDir: 'dist',
   outExtension({ format, options }) {
-    const ext = format === 'esm' ? 'mjs' : 'js'
-    const outputExtension = options.minify ? `${format}.min.${ext}` : `${format}.${ext}`
+    const ext = format === 'esm' ? 'mjs' : 'js';
+    let extParts: string[] = [];
+
+    if ((format as typeof format | 'umd') === 'umd') {
+      extParts.push('umd');
+    }
+
+    if (options.minify) {
+      extParts.push('min');
+    }
 
     return {
-      js: `.${outputExtension}`,
-    }
+      js: `.${extParts.concat(ext).join('.')}`,
+    };
   },
   bundle: true,
-  esbuildPlugins: [umdWrapper()],
-  esbuildOptions(options, context) {
-    // @ts-ignore
-    if (context.format == 'umd') {
-      options.plugins = [umdWrapper()]
-    }
+};
+
+const umdConfig: Options = {
+  ...baseConfig,
+  entry: {
+    [name]: 'src/umd.ts',
   },
-}
+  esbuildPlugins: [umdWrapper({ libraryName })],
+  // @ts-ignore
+  format: 'umd',
+  sourcemap: false,
+  noExternal: Object.keys(dependencies),
+};
 
 export default defineConfig([
-  // CommonJS, ESM & UMD
-  baseConfig,
-
-  // Minified CommonJS & UMD
   {
     ...baseConfig,
-    // @ts-ignore
-    format: ['cjs', 'umd'],
-    minify: true,
-  },
-
-  // DTS
-  {
-    entry: baseConfig.entry,
     dts: true,
   },
-])
+  {
+    ...umdConfig,
+  },
+  {
+    ...umdConfig,
+    minify: true,
+  },
+]);
