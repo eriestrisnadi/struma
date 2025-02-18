@@ -1,11 +1,9 @@
 import { umdWrapper } from 'esbuild-plugin-umd-wrapper';
 import { defineConfig, Options } from 'tsup';
-import { name, dependencies } from './package.json';
-
-const libraryName = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+import { name, dependencies, peerDependencies } from './package.json';
 
 const baseConfig: Options = {
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/adapters/**/*.ts'],
   splitting: false,
   sourcemap: true,
   clean: true,
@@ -35,7 +33,15 @@ const umdConfig: Options = {
   entry: {
     [name]: 'src/umd.ts',
   },
-  esbuildPlugins: [umdWrapper({ libraryName })],
+  esbuildPlugins: [
+    umdWrapper({
+      external: Object.keys(peerDependencies),
+      globals: {
+        superstruct: 'Superstruct',
+        immutable: 'Immutable',
+      },
+    }),
+  ],
   // @ts-ignore
   format: 'umd',
   sourcemap: false,
