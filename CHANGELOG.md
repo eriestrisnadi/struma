@@ -8,4 +8,10 @@ All notable changes to this project will be documented in this file. See
 
 ### Features
 
-* struma schema-driven json database ([fcc808a](https://github.com/eriestrisnadi/struma/commit/fcc808ab69e10594e92d40f56b94bc1000a62630))
+- Schema Validation: Ensure data integrity with Superstruct schemas
+- Immutable State: Use Immutable to manage state in a predictable way.
+- Flexible Adapter: Compatible with lowdb adapters (filesystem, localStorage, memory, etc), or extend functionality with custom adapters for advanced use cases.
+- Sync/Async Supports: Supports seamlessly both synchronous and asynchronous adapters.
+- Cross-Platform: Works in both Node.js and Browser environments.
+- Snapshot History: Automatically takes snapshots of the state, providing historical views of your data.
+- Explicit Writes: Mutate state without immediate persistence, and write changes explicitly when needed.
