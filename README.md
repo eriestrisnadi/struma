@@ -80,7 +80,7 @@ db.state = newState;
 await db.write();
 ```
 
-```json
+```ts
 // db.json
 {
   "name": "Alice",
@@ -145,7 +145,7 @@ export interface Adapter<T> {
 
 ### Node.js / ES Modules
 
-```ts
+```es6
 import { Struma } from 'struma';
 import { JSONFile } from 'struma/adapters/node';
 import { number, object, string } from 'superstruct';
@@ -155,7 +155,7 @@ const UserSchema = object({
   age: number(),
 });
 
-const adapter = new JSONFile<Infer<typeof UserSchema>>('db.json');
+const adapter = new JSONFile('db.json');
 const db = new Struma(UserSchema, adapter);
 
 (async () => {
