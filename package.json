@@ -1,6 +1,6 @@
 {
   "name": "struma",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A schema-driven JSON Database with immutable snapshots capabilities",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
