@@ -13,6 +13,11 @@ jobs:
   release:
     needs: [test]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node to publish to npm
@@ -34,8 +39,6 @@ jobs:
         if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_NPM_CONFIG_REGISTRY: https://npm.pkg.github.com/
           PUBLIC_NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           PUBLIC_NPM_CONFIG_REGISTRY: https://registry.npmjs.org/
         run: yarn semantic-release
